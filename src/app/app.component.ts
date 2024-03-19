@@ -3,11 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { LoginDetails } from './interfaces/login-details';
 import { User } from './interfaces/user';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, AsyncPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -18,7 +20,7 @@ export class AppComponent {
 
   user: User;
 
-  isLoggedIn: string | null;
+  loggedIn$: Observable<boolean>;
 
   constructor(private auth: AuthService){
     this.loginDetails = {
@@ -32,9 +34,14 @@ export class AppComponent {
       email:""
     }
 
-    auth.loginUser(this.loginDetails);
+    this.loggedIn$ = this.auth.loggedIn$;
+  }
 
-    this.isLoggedIn = localStorage.getItem("loggedin");
+  login(){
+    this.auth.loginUser(this.loginDetails);
+  }
+  logout(){
+    this.auth.logOut();
   }
 
   getUser(){

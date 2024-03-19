@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginDetails } from '../interfaces/login-details';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 
 interface ResultData {
@@ -17,6 +17,9 @@ interface RegisterDetails {
 })
 export class AuthService {
 
+  private loggedIn = new Subject<boolean>();
+  loggedIn$ = this.loggedIn.asObservable();
+
   private baseUrl = 'http://127.0.0.1:8000/api/';
 
   private httpOptions = {
@@ -27,12 +30,25 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
+  private updateLoginState(loginState: boolean) {
+    this.loggedIn.next(loginState);
+  }
+
   loginUser(loginDetails: LoginDetails){
     this.http.post<ResultData>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
       catchError(this.handleError)).subscribe(result => {
         console.log(result);
-        localStorage.setItem("loggedin", "true");
+        this.updateLoginState(true);
         this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + result.token);
+      })
+  }
+
+  logOut(){
+    this.http.post<ResultData>(this.baseUrl+'logout', {}, this.httpOptions).pipe(
+      catchError(this.handleError)).subscribe(result => {
+        console.log(result);
+        this.updateLoginState(false);
+        this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer ");
       })
   }
 
