@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { LoginDetails } from './interfaces/login-details';
@@ -18,6 +18,8 @@ export class AppComponent {
 
   user: User;
 
+  isLoggedIn: string | null;
+
   constructor(private auth: AuthService){
     this.loginDetails = {
       email:"seb@seb.seb",
@@ -31,6 +33,8 @@ export class AppComponent {
     }
 
     auth.loginUser(this.loginDetails);
+
+    this.isLoggedIn = localStorage.getItem("loggedin");
   }
 
   getUser(){

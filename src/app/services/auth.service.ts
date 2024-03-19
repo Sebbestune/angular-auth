@@ -8,6 +8,10 @@ interface ResultData {
   token: string
 }
 
+interface RegisterDetails {
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +30,8 @@ export class AuthService {
   loginUser(loginDetails: LoginDetails){
     this.http.post<ResultData>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
       catchError(this.handleError)).subscribe(result => {
+        console.log(result);
+        localStorage.setItem("loggedin", "true");
         this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + result.token);
       })
   }
