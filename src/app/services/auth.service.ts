@@ -26,14 +26,11 @@ export class AuthService {
   loginUser(loginDetails: LoginDetails){
     this.http.post<ResultData>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
       catchError(this.handleError)).subscribe(result => {
-        console.log(result);
-        localStorage.setItem("token", result.token);
+        this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + result.token);
       })
   }
 
   getUser2(): Observable<User[]> {
-    console.log(localStorage.getItem("token"));
-    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + localStorage.getItem("token"));
     return this.http.get<User[]>(this.baseUrl+'getuser/2', this.httpOptions);
   }
 
