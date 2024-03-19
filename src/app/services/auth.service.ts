@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginDetails } from '../interfaces/login-details';
-import { catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { User } from '../interfaces/user';
 
 interface ResultData {
   token: string
@@ -12,7 +13,7 @@ interface ResultData {
 })
 export class AuthService {
 
-  private baseUrl = 'http://127.0.0.1/api/';
+  private baseUrl = 'http://127.0.0.1:8000/api/';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -28,6 +29,12 @@ export class AuthService {
         console.log(result);
         localStorage.setItem("token", result.token);
       })
+  }
+
+  getUser2(): Observable<User[]> {
+    console.log(localStorage.getItem("token"));
+    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + localStorage.getItem("token"));
+    return this.http.get<User[]>(this.baseUrl+'getuser/2', this.httpOptions);
   }
 
   private handleError(error: HttpErrorResponse){
