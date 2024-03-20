@@ -4,17 +4,10 @@ import { AuthService } from '../services/auth.service';
 import { Observable, pipe, tap } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  // let isLoggedIn = false; 
 
-  // console.log("Trying to log in");
+  const auth: AuthService = inject(AuthService);
 
-  // const auth: AuthService = inject(AuthService);
+  console.log(auth.getLoginStatus());
 
-  // auth.loggedIn$.subscribe((v) => console.log(v));
-
-  // console.log(isLoggedIn);
-
-  // return isLoggedIn;
-
-  return true;
+  return auth.getLoginStatus();
 };

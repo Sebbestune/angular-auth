@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginDetails } from '../interfaces/login-details';
-import { Observable, Subject, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 
 interface ResultData {
@@ -17,7 +17,7 @@ interface RegisterDetails {
 })
 export class AuthService {
 
-  private loggedIn = new Subject<boolean>();
+  private loggedIn = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedIn.asObservable();
 
   private baseUrl = 'http://127.0.0.1:8000/api/';
@@ -31,6 +31,9 @@ export class AuthService {
   constructor(private http:HttpClient) { 
   }
 
+  getLoginStatus(){
+    return this.loggedIn.value;
+  }
   private updateLoginState(loginState: boolean) {
     this.loggedIn.next(loginState);
   }
