@@ -28,7 +28,8 @@ export class AuthService {
     })
   }
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { 
+  }
 
   private updateLoginState(loginState: boolean) {
     this.loggedIn.next(loginState);

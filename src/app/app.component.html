@@ -3,6 +3,33 @@
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
 
+<nav>
+  <ul>
+    <li>
+      <a
+        routerLink="/search"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Search</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/recipe"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Recipe</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/profile"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >Profile</a
+      >
+    </li>
+  </ul>
+</nav>
 
-<button (click)="getUser()">Get a user</button>
-<p>{{user.name}}</p>
+<router-outlet></router-outlet>
