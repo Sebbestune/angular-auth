@@ -1,3 +1,19 @@
 <p>recipesearch works!</p>
 
 <button (click)="searchRecipe()">Get recipes</button>
+
+@for (recipe of recipes; track recipe) {
+<article>  
+    <h2>{{ recipe.label }}</h2>
+    <img src="{{recipe.image}}">
+    <p>{{recipe.totalTime}}</p>
+    <p>{{recipe.self}}</p>
+    <ul>
+        @for (ingredientLine of recipe.ingredientLines; track ingredientLine) {
+        <li>{{ingredientLine}}</li>
+        }
+    </ul>
+</article>
+} @empty {
+<p>There are no recipes...</p>
+}
