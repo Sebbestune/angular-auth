@@ -9,12 +9,12 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrl: './recipe.component.css',
 })
 export class RecipeComponent implements OnInit{
-  id?: number;
+  id?: string;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = Number(params.get('id'));
+      this.id = String(params.get('id'));
     });
   }
 }
