@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { RecipeService } from '../../services/recipe.service';
 import { filter, map } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { IdformatterPipe } from './idformatter.pipe';
 
 @Component({
   selector: 'app-recipesearch',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, IdformatterPipe],
   templateUrl: './recipesearch.component.html',
   styleUrl: './recipesearch.component.css',
 })
